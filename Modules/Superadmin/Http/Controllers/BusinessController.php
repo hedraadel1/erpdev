@@ -61,6 +61,13 @@ class BusinessController extends BaseController
         ->leftjoin('business_locations as bl', 'business.id', '=', 'bl.business_id')
         ->leftjoin('users as u', 'u.id', '=', 'business.owner_id')
         ->leftjoin('users as creator', 'creator.id', '=', 'business.created_by')
+        ->leftjoin('server_subscriptions AS ss', function ($join) use ($date_today) {
+            $join->on('business.id', '=', 'ss.business_id')
+              ->whereDate('ss.start_date', '<=', $date_today)
+              ->whereDate('ss.end_date', '>=', $date_today)
+              ->where('ss.status', 'approved');
+          })
+          ->leftjoin('server_types as sp', 'ss.server_types_id', '=', 'sp.id')
         ->select(
           'business.id',
           'business.name',
@@ -79,7 +86,8 @@ class BusinessController extends BaseController
           'business.is_old',
           's.start_date',
           's.end_date',
-          'p.name as package_name',
+        
+          'sp.server_name as package_name',
           'bc.name as category_name',
           'business.created_at',
           DB::raw("CONCAT(COALESCE(creator.surname, ''), ' ', COALESCE(creator.first_name, ''), ' ', COALESCE(creator.last_name, '')) as biz_creator")
@@ -137,15 +145,15 @@ class BusinessController extends BaseController
         ->editColumn('category_id', '{{$category_name}}')
         ->addColumn('action', function ($row) {
 
-          $html = '<button style="width:150px;margin-bottom: 5px;" type="button" class="btn btn-xs Btn-Brand Btn-Primary btn-modal" data-href="' . action('\Modules\Superadmin\Http\Controllers\SuperadminSubscriptionsController@create', ['business_id' => $row->id]) . '" data-container=".view_modal">'
+          $html = '<button style="width:150px;margin-bottom: 5px;" type="button" class="btn btn-xs Btn-Brand Btn-Brand-blue Btn-Primary btn-modal" data-href="' . action('\Modules\Superadmin\Http\Controllers\SuperadminSubscriptionsController@create', ['business_id' => $row->id]) . '" data-container=".view_modal">'
             . __('superadmin::lang.add_subscription') . '</button>
-                                <button style="width:150px;margin-bottom: 5px;" type="button" class="btn btn-xs Btn-Brand Btn-Primary btn-modal" data-href="' . action('\Modules\Superadmin\Http\Controllers\SerSuperadminSubscriptionsController@create', ['business_id' => $row->id]) . '" data-container=".view_modal">'
+                                <button style="width:150px;margin-bottom: 5px;" type="button" class="btn btn-xs Btn-Brand Btn-Brand-blue Btn-Primary btn-modal" data-href="' . action('\Modules\Superadmin\Http\Controllers\SerSuperadminSubscriptionsController@create', ['business_id' => $row->id]) . '" data-container=".view_modal">'
             . __('superadmin::lang.add_subscription_server') . '</button>
-                          <button style="width:150px;margin-bottom: 5px;" type="button" class="btn btn-xs Btn-Brand Btn-Primary btn-modal" data-href="' . action('\Modules\Superadmin\Http\Controllers\WalletController@create', ['business_id' => $row->id]) . '" data-container=".view_modal">'
+                          <button style="width:150px;margin-bottom: 5px;" type="button" class="btn btn-xs Btn-Brand Btn-Brand-blue Btn-Primary btn-modal" data-href="' . action('\Modules\Superadmin\Http\Controllers\WalletController@create', ['business_id' => $row->id]) . '" data-container=".view_modal">'
             . __('superadmin::lang.add_amount') . '</button>
-                          <button style="width:150px;margin-bottom: 5px;" type="button" class="btn btn-xs Btn-Brand Btn-Primary btn-modal" data-href="' . action('\Modules\Superadmin\Http\Controllers\WalletController@create', ['business_id' => $row->id, 'type' => 'free']) . '" data-container=".view_modal">'
+                          <button style="width:150px;margin-bottom: 5px;" type="button" class="btn btn-xs Btn-Brand Btn-Brand-blue Btn-Primary btn-modal" data-href="' . action('\Modules\Superadmin\Http\Controllers\WalletController@create', ['business_id' => $row->id, 'type' => 'free']) . '" data-container=".view_modal">'
             . __('superadmin::lang.cash_back') . '</button>
-                          <button style="width:150px;margin-bottom: 5px;" type="button" class="btn btn-xs Btn-Brand Btn-Primary btn-modal" data-href="' . action('\Modules\Superadmin\Http\Controllers\SuperadminProductController@shortCreate', ['business_id' => $row->id]) . '" data-container=".view_modal">'
+                          <button style="width:150px;margin-bottom: 5px;" type="button" class="btn btn-xs Btn-Brand Btn-Brand-blue Btn-Primary btn-modal" data-href="' . action('\Modules\Superadmin\Http\Controllers\SuperadminProductController@shortCreate', ['business_id' => $row->id]) . '" data-container=".view_modal">'
             . __('superadmin::lang.add_product') . '</button>';
 
 
@@ -198,6 +206,7 @@ class BusinessController extends BaseController
           });
         })
         ->addColumn('current_subscription', '{{$package_name ?? ""}} @if(!empty($start_date) && !empty($end_date)) ({{@format_date($start_date)}} - {{@format_date($end_date)}}) @endif')
+        ->addColumn('Servercurrent_subscription', '{{$package_name ?? ""}} @if(!empty($start_date) && !empty($end_date)) ({{@format_date($start_date)}} - {{@format_date($end_date)}}) @endif')
         ->editColumn('created_at', '{{@format_datetime($created_at)}}')
        
         ->rawColumns(['action', 'actions', 'is_active', 'is_old',  'created_at'])

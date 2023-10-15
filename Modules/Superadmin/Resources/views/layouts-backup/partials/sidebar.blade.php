@@ -68,14 +68,6 @@
 					</span>
 			  	</a>
 			</li>
-			<li class="{{ $request->segment(2) == 'contents' ? 'active active-sub' : '' }}">
-				<a href="{{action('\Modules\Superadmin\Http\Controllers\ContentController@index')}}">
-					<i class="fa fa-envelope"></i>
-					<span class="title">
-						@lang('superadmin::lang.contents')
-					</span>
-			  	</a>
-			</li>
 
         </ul>
 	</li>

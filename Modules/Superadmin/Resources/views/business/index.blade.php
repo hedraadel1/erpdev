@@ -106,7 +106,7 @@
                                     <th>@lang('sale.status')</th>
                                     <th>@lang('lang_v1.isold_statues')</th>
                                     <th>@lang('business.current_subscription')</th>
-
+                                    <th>@lang('business.current_subscription')</th>
                                 </tr>
                             </thead>
                         </table>
@@ -206,7 +206,10 @@
                         data: 'current_subscription',
                         name: 'p.name'
                     },
-
+                    {
+                        data: 'Servercurrent_subscription',
+                        name: 'p.name'
+                    },
 
                 ]
             });
