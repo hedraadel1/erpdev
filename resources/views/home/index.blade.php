@@ -7,13 +7,41 @@
     <section style="margin-top: 130px">
 
     </section>
+    <section class="content content-custom no-print row row-custom">
+        <div style="height: 50px; margin-top: 10px;" class=" button-header-40">
+            <div class="row">
+                <div class="col-md-6">
+                    اهلاً وسهلاً بك
+                    <div style="color:red">
+                        {{ Session::get('business.name') }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    @php
+                        $currentDate = now();
+                        $endDate = \Carbon\Carbon::parse($active->end_date);
+                        $remainingDays = $currentDate->diffInDays($endDate);
+                    @endphp
+                    @if (!empty($active))
+                        انت على سيرفر {{ $active->package_details['name'] }}
+                        <br>
+                        <div style="color:red;margin-top: 6px;font-size: 12px;font-family: droid;">
+                            متبقي فى اشتراكك {{ $remainingDays }} يوم
+                    @endif
+                </div>
+            </div>
+
+        </div>
+        </div>
+    </section>
+    <br>
     <!-- Main content -->
     <section class="content content-custom no-print row row-custom">
         <br>
         @if (auth()->user()->can('dashboard.data'))
             @if ($is_admin)
                 @if (count($all_locations) > 1)
-                    <div style="height: 90px; margin-top: 10px;" class=" button-header-40">
+                    <div style="height: 50px; margin-top: 10px;" class=" button-header-40">
                         <div class="row">
                             {{--    @if (isMobile()) --}}
                             <div class="col-md-6">
@@ -46,10 +74,11 @@
                     <div class="hometicker red full-width">
                         <span>اخبار براند</span>
                         <ul class="scrollLeft">
-                            <li><a href="https://smartlys.online/erpdev/public/business/howto"> (اضغط هنا) ما هى خدمة الكلاود - السيرفر ؟ وكيف اختار الانسب لي؟ </a></li>
-                            <li><a href="#">  (جاري تنزيل الموضوع)  ما هى مواصفات التحديث الجديد</a></li>
-                            <li><a href="#">  (جاري تنزيل الموضوع)  كيف استطيع تحميل بياناتي  </a></li>
-                            <li><a href="#">  (جاري تنزيل الموضوع)  جاري الاّن تنزيل الاصدار الجديد .. </a></li>
+                            <li><a href="https://smartlys.online/erpdev/public/business/howto"> (اضغط هنا) ما هى خدمة
+                                    الكلاود - السيرفر ؟ وكيف اختار الانسب لي؟ </a></li>
+                            <li><a href="#"> (جاري تنزيل الموضوع) ما هى مواصفات التحديث الجديد</a></li>
+                            <li><a href="#"> (جاري تنزيل الموضوع) كيف استطيع تحميل بياناتي </a></li>
+                            <li><a href="#"> (جاري تنزيل الموضوع) جاري الاّن تنزيل الاصدار الجديد .. </a></li>
                         </ul>
                     </div>
                 </div>
@@ -63,25 +92,47 @@
                                 باقات السيرفرات
                             </div>
                         </div> --}}
-                        <div class=" col-xs-12">
-
-                            <div class="form-group pull-right">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button style="width: 200px;" onclick="hidePrideDiv()" type="button"
+                                    class="btn btn-primary" id="">
+                                    اخفاء
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                @php
+                                    if (!isset($activeserver)) {
+                                        $currentDate = now();
+                                        $endDate = \Carbon\Carbon::parse($activeserver->end_date);
+                                        $remainingDays = $currentDate->diffInDays($endDate);
+                                    }
+                                @endphp
+                                @if (!isset($activeserver))
+                             
+                                    انت على سيرفر {{ $activeserver->ServerSubscriptions_details['server_name'] }}
+                                    <br>
+                                    <div style="color:red;margin-top: 6px;font-size: 12px;font-family: droid;">
+                                        متبقي فى اشتراكك {{ $remainingDays }} يوم
+                                @endif
+                            </div>
+                        </div>
+                        {{--   <div class="form-group pull-right">
                                 <div class="input-group">
                                     <button style="width: 200px;" onclick="hidePrideDiv()" type="button"
                                         class="btn btn-primary" id="">
                                         اخفاء
                                     </button>
                                 </div>
-                            </div>
+                            </div> --}}
 
 
-                        </div>
                     </div>
+                </div>
 
-                    <div style="/* background: #424141; */margin-bottom: 8px;
+                <div style="/* background: #424141; */margin-bottom: 8px;
                      padding: 2px;border-radius: 7px;"
-                        class="ag-format-container">
-                        {{-- <div style="border-radius: 4px;background: white;
+                    class="ag-format-container">
+                    {{-- <div style="border-radius: 4px;background: white;
                     padding: 5px" class="">
                             <div class="ag-courses_item" style=" flex-basis: calc(25% - 30px);">
                                 @if (!empty($wallet))
@@ -151,143 +202,138 @@
                                     </div>
                                 </div> --}}
 
-                        <div class="clearfix"></div>
-                        <div class="clearfix"></div>
-                        <div style="margin-top:10px" class="col-md-12">
-                            <div style="border:solid;border-radius: 20px;" class="">
-                                <div style="background: black;color:#fff !important;border-top-right-radius: 17px;
+                    <div class="clearfix"></div>
+                    <div class="clearfix"></div>
+                    <div style="margin-top:10px" class="col-md-12">
+                        <div style="border:solid;border-radius: 20px;" class="">
+                            <div style="background: black;color:#fff !important;border-top-right-radius: 17px;
                                 border-top-left-radius: 17px;"
-                                    class="box-header text-center">
-                                    <h2 style="color:#fff !important" class="box-title">
-                                        باقات السيرفرات
-                                    </h2>
-                                </div>
-                                <div class="box-header  text-center">
+                                class="box-header text-center">
+                                <h2 style="color:#fff !important" class="box-title">
+                                    باقات السيرفرات
+                                </h2>
+                            </div>
+                            <div class="box-header  text-center">
 
 
-                                    <div style="overflow: scroll" class="box-body text-center">
-                                        <div style="" class="text-center">
-                                            جميع الباقات تحتوي على مميزات اضافية مثل خدمات الدعم الفني ويختلف اسعارها
-                                            اليومية عن الشهرية
-                                            والسنوية
-                                        </div>
-                                        <div class="box-body">
-                                            @foreach ($serverTypes as $serverType)
-                                                <div class="col-md-3">
+                                <div style="overflow: scroll" class="box-body text-center">
+                                    <div style="" class="text-center">
+                                        جميع الباقات تحتوي على مميزات اضافية مثل خدمات الدعم الفني ويختلف اسعارها
+                                        اليومية عن الشهرية
+                                        والسنوية
+                                    </div>
+                                    <div class="box-body">
+                                        @foreach ($serverTypes as $serverType)
+                                            <div class="col-md-3">
 
-                                                    <div style=" direction: ltr;height: 400px;width: unset;"
-                                                        class="buttonBlue {{-- hvr-grow-shadow --}}">
-                                                        <div style="font-weight: bold;background: #000;color:white;padding:unset !important"
-                                                            class="box-header with-border text-center">
-                                                            <h2 style="color:white;font-weight: bold;" class="box-title">
-                                                                {{ $serverType->server_name }}</h2>
+                                                <div style=" direction: ltr;height: 400px;width: unset;"
+                                                    class="buttonBlue {{-- hvr-grow-shadow --}}">
+                                                    <div style="font-weight: bold;background: #000;color:white;padding:unset !important"
+                                                        class="box-header with-border text-center">
+                                                        <h2 style="color:white;font-weight: bold;" class="box-title">
+                                                            {{ $serverType->server_name }}</h2>
+
+                                                    </div>
+                                                    <!-- /.box-header -->
+                                                    <div style="margin-top:3px;padding: unset;font-size: 12px;font-weight: 900;color:white"
+                                                        class="box-body text-center">
+                                                        <div style="color: white;font-size:10px">
+                                                            {{ $serverType->server_speed }}
+                                                        </div>
+                                                        </br>
+                                                        @lang('superadmin::lang.server_cpu')
+                                                        <div style="color: #050506;font-size: 8px;min-height: 30px;">
+                                                            {{ $serverType->server_cpu }}
+                                                        </div>
+
+                                                        @lang('superadmin::lang.server_ram')
+                                                        <div style="color: #050506;margin-bottom: 6px">
+                                                            {{ $serverType->server_ram }}
+                                                        </div>
+
+                                                        @lang('superadmin::lang.server_network')
+                                                        <div style="color: #050506;margin-bottom: 6px">
+                                                            {{ $serverType->server_network }}
+                                                        </div>
+
+                                                        @lang('superadmin::lang.server_pr_limit')
+                                                        <div style="color: #050506;margin-bottom: 6px;direction: rtl;">
+                                                            {{ $serverType->server_pr_limit }}
+                                                        </div>
+
+                                                        @lang('superadmin::lang.server_response_time_range')
+                                                        <div style="color: #050506;direction: rtl;">
+                                                            {{ $serverType->server_response_time_range }}
 
                                                         </div>
-                                                        <!-- /.box-header -->
-                                                        <div style="margin-top:3px;padding: unset;font-size: 12px;font-weight: 900;color:white"
-                                                            class="box-body text-center">
-                                                            <div style="color: white;font-size:10px">
-                                                                {{ $serverType->server_speed }}
-                                                            </div>
-                                                            </br>
-                                                            @lang('superadmin::lang.server_cpu')
-                                                            <div style="color: #050506;font-size: 8px;min-height: 30px;">
-                                                                {{ $serverType->server_cpu }}
-                                                            </div>
-
-                                                            @lang('superadmin::lang.server_ram')
-                                                            <div style="color: #050506;margin-bottom: 6px">
-                                                                {{ $serverType->server_ram }}
-                                                            </div>
-
-                                                            @lang('superadmin::lang.server_network')
-                                                            <div style="color: #050506;margin-bottom: 6px">
-                                                                {{ $serverType->server_network }}
-                                                            </div>
-
-                                                            @lang('superadmin::lang.server_pr_limit')
-                                                            <div style="color: #050506;margin-bottom: 6px;direction: rtl;">
-                                                                {{ $serverType->server_pr_limit }}
-                                                            </div>
-
-                                                            @lang('superadmin::lang.server_response_time_range')
-                                                            <div style="color: #050506;direction: rtl;">
-                                                                {{ $serverType->server_response_time_range }}
-
-                                                            </div>
                                                         @php
-                                                        $maxFree = 3000;
-                                                        $maxOnooPlus = 100000;
-                                                        $maxOnooStudio = 400000;
-                                                        $maxOnooVip = 1000000;
-                                                             
-                                                             if ($serverType->server_name == "Free") {
-                                                                $serverlimit = rand(2400, 3000);                                                               
-                                                                $maxval = $maxFree;
-                                                             }
-                                                             elseif ($serverType->server_name == "OnooPlus") {
-                                                                $serverlimit = rand(20000, 100000); 
-                                                                $maxval = $maxOnooPlus;
-                                                             }
-                                                             elseif ($serverType->server_name == "OnooStudio") {
-                                                                $serverlimit = rand(200000, 400000); 
-                                                                $maxval = $maxOnooStudio;
-                                                             }
-                                                             else{
-                                                                $serverlimit = rand(400000, 1000000); 
-                                                                $maxval = $maxOnooVip;
-                                                             }
+                                                            $maxFree = 3000;
+                                                            $maxOnooPlus = 100000;
+                                                            $maxOnooStudio = 400000;
+                                                            $maxOnooVip = 1000000;
 
-                                                             $Svwidth = ($serverlimit / $maxval) * 100 ;
-                                                             $ServerLimitWidth = floor($Svwidth);
-                                                           
+                                                            if ($serverType->server_name == 'Free') {
+                                                                $serverlimit = rand(2400, 3000);
+                                                                $maxval = $maxFree;
+                                                            } elseif ($serverType->server_name == 'OnooPlus') {
+                                                                $serverlimit = rand(20000, 100000);
+                                                                $maxval = $maxOnooPlus;
+                                                            } elseif ($serverType->server_name == 'OnooStudio') {
+                                                                $serverlimit = rand(200000, 400000);
+                                                                $maxval = $maxOnooStudio;
+                                                            } else {
+                                                                $serverlimit = rand(400000, 1000000);
+                                                                $maxval = $maxOnooVip;
+                                                            }
+
+                                                            $Svwidth = ($serverlimit / $maxval) * 100;
+                                                            $ServerLimitWidth = floor($Svwidth);
+
                                                         @endphp
                                                         {{--     <span style="" id="serverloader-value">{{ $sleepSeconds }}</span> --}}
-                                                            <br>
-                                                            <div class="serverloader">{{ $serverlimit }} from {{ $maxval }} ( {{ $ServerLimitWidth}} %)</div>
+                                                        <br>
+                                                        <div class="serverloader">{{ $serverlimit }} from
+                                                            {{ $maxval }} ( {{ $ServerLimitWidth }} %)</div>
 
-                                                            <br />
-                                                       
-                                                            <h3 class="box-header with-border text-center priceh3">
+                                                        <br />
 
-                               
-                                                                @if ($serverType->server_price_perday != 0)
-                                                                    <span class="display_currency"
-                                                                        data-currency_symbol="true">
-                                                                        {{ $serverType->server_price_perday }}
-                                                                    </span>
+                                                        <h3 class="box-header with-border text-center priceh3">
 
-                                                                    <small style="color: white">
-                                                                        / @lang('superadmin::lang.perday')
-                                                                    </small>
-                                                                @else
-                                                                    / @lang('superadmin::lang.forfree')
-                                                                @endif
-                                                            </h3>
-                                                            <button style="bottom: 50px;position: absolute;"
-                                                                class="btn Btn-Brand Btn-bx btn-info btn-block">التفاصيل
-                                                            </button>
 
-                                                        </div>
-                                                        <!-- /.box-body -->
+                                                            @if ($serverType->server_price_perday != 0)
+                                                                <span class="display_currency" data-currency_symbol="true">
+                                                                    {{ $serverType->server_price_perday }}
+                                                                </span>
 
-                                                    
+                                                                <small style="color: white">
+                                                                    / @lang('superadmin::lang.perday')
+                                                                </small>
+                                                            @else
+                                                                / @lang('superadmin::lang.forfree')
+                                                            @endif
+                                                        </h3>
+                                                        <button style="bottom: 50px;position: absolute;"
+                                                            class="btn Btn-Brand Btn-bx btn-info btn-block">التفاصيل
+                                                        </button>
+
                                                     </div>
-                                                    <!-- /.box -->
+                                                    <!-- /.box-body -->
+
+
                                                 </div>
+                                                <!-- /.box -->
+                                            </div>
+                                        @endforeach
 
-                                    
-                                            @endforeach
-
-                                        </div>
                                     </div>
-
                                 </div>
 
                             </div>
-                        </div>
 
+                        </div>
                     </div>
+
+                </div>
 
                 </div>
 
@@ -842,15 +888,15 @@
     @endif
     <script type="text/javascript">
         /*  var d = document.getElementById("lastupdatediv");
-                                    var b = document.getElementById("lastupdatedetails");
-                                    var c = document.getElementById("lastupdateclick");
+                                        var b = document.getElementById("lastupdatedetails");
+                                        var c = document.getElementById("lastupdateclick");
 
 
-                                    d.onclick = function() {
-                                        b.style.display = "unset";
-                                        c.style.display = "none";
+                                        d.onclick = function() {
+                                            b.style.display = "unset";
+                                            c.style.display = "none";
 
-                                    }; */
+                                        }; */
         $(document).ready(function() {
             sales_order_table = $('#sales_order_table').DataTable({
                 processing: true,

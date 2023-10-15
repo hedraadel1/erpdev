@@ -22,6 +22,7 @@ Route::group(['middleware' => ['web', 'auth', 'language', 'AdminSidebarMenu', 's
 
     Route::resource('/packages', 'PackagesController');
     Route::get('/packages/{id}/destroy', 'PackagesController@destroy');
+    Route::resource('/addserversubstore', 'SerSuperadminSubscriptionsController');
 
     Route::get('/settings', 'SuperadminSettingsController@edit');
     Route::put('/settings', 'SuperadminSettingsController@update');
@@ -75,7 +76,6 @@ Route::group([
 
     Route::post('/ser-ser-update-subscription', 'SerSuperadminSubscriptionsController@updateSubscription');
 
-    Route::resource('/addserversubstore', 'SerSuperadminSubscriptionsController');
 
     // End Superadmin Server
 

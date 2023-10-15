@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\BusinessLocation;
-
+use Modules\Superadmin\Entities\Subscription;
+use Modules\Superadmin\Entities\ServerSubscriptions;
 use App\Charts\CommonChart;
 use App\Currency;
 use App\Transaction;
@@ -59,7 +60,12 @@ class HomeController extends Controller
      */
     public function index()
     {
+        
         $business_id = request()->session()->get('user.business_id');
+        $activeserver = ServerSubscriptions::active_ServerSubscriptions($business_id);
+        $active = Subscription::active_subscription($business_id);
+      /*   $ServerType = ServerType::active()->orderby('sort_order')->get(); */
+
 
         $is_admin = $this->businessUtil->is_admin(auth()->user());
 
@@ -200,7 +206,7 @@ class HomeController extends Controller
 
         $common_settings = !empty(session('business.common_settings')) ? session('business.common_settings') : [];
 
-        return view('home.index', compact('sells_chart_1', 'sells_chart_2', 'serverTypes', 'widgets', 'all_locations', 'common_settings', 'is_admin'));
+        return view('home.index', compact('sells_chart_1','activeserver','active', 'sells_chart_2', 'serverTypes', 'widgets', 'all_locations', 'common_settings', 'is_admin'));
     }
 
     /**

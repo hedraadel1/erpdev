@@ -46,7 +46,7 @@ class ServerType extends Model
     return $query->where('available', true)->orderBy('server_name', 'asc');
   }
 
-  public function scopeScopeAvailable($query)
+  public function ScopeAvailable($query)
   {
     return $query->where('available', true);
   }
