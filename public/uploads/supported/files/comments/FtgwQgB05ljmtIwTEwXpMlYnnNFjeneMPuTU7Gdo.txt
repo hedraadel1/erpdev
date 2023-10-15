@@ -1,0 +1,80 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost:3306
+-- Generation Time: Oct 01, 2023 at 06:06 PM
+-- Server version: 10.6.15-MariaDB
+-- PHP Version: 8.1.16
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `newgyral_erpnew`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `support_tickets`
+--
+
+CREATE TABLE `support_tickets` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `business_id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `priority` varchar(255) NOT NULL DEFAULT 'medium',
+  `status` varchar(255) NOT NULL DEFAULT 'open',
+  `date` date DEFAULT NULL,
+  `description` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `file` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `support_tickets`
+--
+
+INSERT INTO `support_tickets` (`id`, `title`, `business_id`, `user_id`, `priority`, `status`, `date`, `description`, `file`, `created_at`, `updated_at`) VALUES
+(3, 'sadasdsa', 496, 6930, 'medium', 'open', NULL, '<p>asdasdsadsa</p>', NULL, '2023-03-11 10:26:50', '2023-03-11 10:26:50'),
+(5, 'erewre', 496, 6930, 'high', 'open', '2023-03-11', '<p>rewre fdsaf <strong>das</strong></p>', 'uploads/supported/files/4LGU3fBE37wPGDOAvgAQRKTOAm5cjqf2dIsIhlTm.png', '2023-03-11 11:20:41', '2023-03-11 12:48:20'),
+(7, 'new', 496, 6930, 'high', 'answered', '2023-03-11', '<p>jhfsdfjksdfh kjfsdsdghfgsdgha af hdsahf dsafds fd fdsa f</p>', 'uploads/supported/files/iNErVt19CFR6Ci7ONZuv1nOzhSN6PEM6SkLjQqtl.docx', '2023-03-11 15:35:05', '2023-03-11 15:44:10'),
+(8, 'New Ticket', 496, 6930, 'medium', 'answered', '2023-03-11', '<p>Ticket open now</p>', 'uploads/supported/files/nfPWjgmtMaxjq0BtLDc2xnyH9qpobc6kt5IV2kHp.docx', '2023-03-11 16:04:29', '2023-03-11 16:08:07'),
+(9, '1', 495, 6922, 'medium', 'answered', '2023-03-12', NULL, NULL, '2023-03-12 05:04:33', '2023-03-12 05:06:10'),
+(11, '??? ??? ?????', 512, 7005, 'medium', 'open', '2023-05-17', '<p>????? ??? ??? ????? ??????? ????? ???</p>', NULL, '2023-05-17 10:55:29', '2023-05-17 10:55:29'),
+(12, 'test', 348, 6689, 'medium', 'in_process', '2023-08-05', '<p style=\"text-align: center;\"><strong>ssssssssssss</strong></p>', NULL, '2023-08-05 00:12:25', '2023-08-05 00:20:15');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `support_tickets`
+--
+ALTER TABLE `support_tickets`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `support_tickets`
+--
+ALTER TABLE `support_tickets`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
